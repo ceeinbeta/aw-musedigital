@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/*
+ * MUSE DIGITAL design tokens — the single source for colour, type and motion.
+ * Every component draws from these; change a value here and it changes sitewide.
+ */
+@theme inline {
+  /* Palette */
+  --color-ivory: #faf7f2;
+  --color-cream: #f3ede3;
+  --color-champagne: #e6d5b8;
+  --color-beige: #d8c7ae;
+  --color-taupe: #8b7e72; /* decorative use and large text only */
+  --color-taupe-deep: #675c52; /* small text: passes WCAG AA on ivory and cream */
+  --color-charcoal: #2b2927;
+  --color-black: #0f0e0d;
+
+  /* Typography: one family sitewide. Both utility names map to Inter so
+     every existing component picks it up. */
+  --font-serif: var(--font-primary);
+  --font-sans: var(--font-primary);
+
+  /* Motion */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+ * Typography scale. These values are the brand specification: edit them here
+ * and every page follows.
+ */
+:root {
+  --font-primary: var(--font-inter), "Inter", Arial, sans-serif;
+
+  --font-body: 16px;
+  --font-small: 13px;
+
+  --font-h1: 46px;
+  --font-h2: 32px;
+  --font-h3: 24px;
+  --font-h4: 20px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --line-body: 1.6;
+  --line-heading: 1.2;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-primary);
+  font-size: var(--font-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-body);
+}
+
+/*
+ * Heading rules sit outside Tailwind's layers on purpose, so they take
+ * precedence over size and weight utilities on any h1–h4. A heading that is
+ * styled as a small label instead (e.g. footer column titles) opts out with
+ * the `heading-label` class.
+ */
+:is(h1, h2, h3, h4):not(.heading-label) {
+  font-family: var(--font-primary);
+  /* Long words wrap rather than push the page wider on small screens. */
+  overflow-wrap: break-word;
+  font-weight: var(--weight-bold);
+  line-height: var(--line-heading);
+}
+
+h1:not(.heading-label) {
+  font-size: var(--font-h1);
+}
+h2:not(.heading-label) {
+  font-size: var(--font-h2);
+}
+h3:not(.heading-label) {
+  font-size: var(--font-h3);
+}
+h4:not(.heading-label) {
+  font-size: var(--font-h4);
+}
+
+::selection {
+  background: var(--color-champagne);
+  color: var(--color-black);
+}
+
+/* Visible keyboard focus on every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--color-charcoal));
+  outline-offset: 3px;
+}
+
+/* On dark backgrounds the focus ring switches to a light colour. */
+.on-dark {
+  --focus-ring: var(--color-champagne);
+}
+
+/* Underline that draws in from the left on hover. */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.5s var(--ease-editorial);
+  padding-bottom: 2px;
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* Gentle entrance for hero and section content. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-rise {
+  animation: rise 0.9s var(--ease-editorial) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
