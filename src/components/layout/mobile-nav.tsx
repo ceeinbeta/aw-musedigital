@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { NavLink } from "./nav-link";
 import { useEffect, useState } from "react";
 import type { NavItem } from "@/lib/site";
 
@@ -55,13 +55,15 @@ export function MobileNav({ items }: { items: NavItem[] }) {
           <ul className="flex flex-col">
             {items.map((item) => (
               <li key={item.href} className="border-b border-beige/50">
-                <Link
+                <NavLink
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-5 font-serif text-2xl text-black"
+                  className="flex items-center justify-between py-5 text-2xl text-black"
+                  activeClassName="font-medium [&>span]:opacity-100"
                 >
                   {item.label}
-                </Link>
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-charcoal opacity-0" />
+                </NavLink>
               </li>
             ))}
           </ul>

@@ -119,6 +119,15 @@ h4:not(.heading-label) {
   }
 }
 
+/*
+ * Permanent underline on the current page or section in navigation. Styled
+ * from aria-current, so what sighted visitors see always matches what
+ * screen readers announce.
+ */
+.link-underline[aria-current] {
+  background-size: 100% 1px;
+}
+
 /* Gentle entrance for hero and section content. */
 @keyframes rise {
   from {

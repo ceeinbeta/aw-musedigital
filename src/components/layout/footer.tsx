@@ -89,9 +89,21 @@ export function Footer() {
             </Link>
             .
           </p>
-          <p className="mt-6 text-xs text-ivory/60">
-            © {siteConfig.name}. All rights reserved.
-          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-ivory/70">
+            <p>© {siteConfig.name}. All rights reserved.</p>
+            <ul className="flex gap-6">
+              <li>
+                <Link href="/search" className="link-underline">
+                  Search
+                </Link>
+              </li>
+              <li>
+                <a href="/feed.xml" className="link-underline">
+                  RSS feed
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </footer>

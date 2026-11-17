@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import { baseOpenGraph } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/seo/json-ld";
 import { graph, organization, website } from "@/lib/seo/structured-data";
-import { BrandIntro } from "@/components/home/brand-intro";
 import { EventInspiration } from "@/components/home/event-inspiration";
 import { FeaturedEdits } from "@/components/home/featured-edits";
-import { Hero } from "@/components/home/hero";
 import { LatestJournal } from "@/components/home/latest-journal";
 import { Newsletter, Social } from "@/components/home/newsletter-social";
 import { ProductRow } from "@/components/home/product-row";
@@ -19,11 +17,11 @@ import {
   getShopTheEdit,
   getTrendingProducts,
 } from "@/lib/content";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  openGraph: {
-      ...baseOpenGraph, url: "/" },
+  openGraph: { ...baseOpenGraph, url: "/" },
 };
 
 export default async function Home() {
@@ -41,9 +39,11 @@ export default async function Home() {
   return (
     <>
       <JsonLd data={graph(organization(), website())} />
-      <Hero />
-      <BrandIntro />
-      <LatestJournal articles={latest} />
+      {/* The page's main heading: not shown, but read by screen readers and search engines. */}
+      <h1 className="sr-only">
+        {siteConfig.name}: {siteConfig.tagline}
+      </h1>
+      <LatestJournal articles={latest} priority />
       <FeaturedEdits edits={edits} id="edits" eyebrow="The Edits" title="Explore by section" />
       <EventInspiration articles={eventStories} />
       {/* Product rows render nothing until real, linked products exist. */}

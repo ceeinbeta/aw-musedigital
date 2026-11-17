@@ -71,6 +71,7 @@ export default async function JournalPage() {
                 excerpt={lead.excerpt}
                 category={`${lead.category} · ${lead.typeLabel}`}
                 image={lead.image}
+                readingMinutes={lead.readingMinutes}
                 imageLabel={lead.imageLabel}
                 href={lead.href}
               />
@@ -83,6 +84,7 @@ export default async function JournalPage() {
                       excerpt={article.excerpt}
                       category={`${article.category} · ${article.typeLabel}`}
                       image={article.image}
+                      readingMinutes={article.readingMinutes}
                       imageLabel={article.imageLabel}
                       href={article.href}
                     />

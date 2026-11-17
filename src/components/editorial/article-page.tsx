@@ -17,6 +17,7 @@ import { article as articleData, breadcrumbs, faqPage, graph } from "@/lib/seo/s
 import { PhotoCredit } from "@/components/ui/photo-credit";
 import { FaqSection, KeyTakeaways, TableOfContents, tableOfContents } from "./article-extras";
 import { ArticleBody } from "./article-body";
+import { ShareLinks } from "./share-links";
 import { ArticleCard } from "./article-card";
 
 /** The index page each template belongs under, for breadcrumbs. */
@@ -87,6 +88,7 @@ export async function ArticlePage({ slug, allow }: ArticlePageProps) {
   const section = sections[article.type] ?? journal;
   const affiliate = hasAffiliateContent(article);
   const toc = tableOfContents(article.body);
+  const absoluteUrl = new URL(article.href, siteConfig.url).toString();
 
   return (
     <article>
@@ -166,54 +168,76 @@ export async function ArticlePage({ slug, allow }: ArticlePageProps) {
         <PhotoCredit image={article.image} className="mt-3 text-right" />
       </Container>
 
-      <Container width="narrow" className="py-12 sm:py-16">
-        {affiliate ? <DisclosureNotice className="mb-10" /> : null}
+      <Container width="default" className="py-12 sm:py-16">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16 xl:gap-24">
+          <div className="mx-auto w-full max-w-3xl lg:mx-0">
+          {affiliate ? <DisclosureNotice className="mb-10" /> : null}
 
-        {article.review ? <div className="mb-12"><ReviewSummary review={article.review} /></div> : null}
+          {article.review ? <div className="mb-12"><ReviewSummary review={article.review} /></div> : null}
 
-        {article.takeaways.length > 0 ? <KeyTakeaways items={article.takeaways} /> : null}
+          {article.takeaways.length > 0 ? <KeyTakeaways items={article.takeaways} /> : null}
 
-        {toc.length >= 3 ? <TableOfContents items={toc} /> : null}
+          {toc.length >= 3 ? <TableOfContents items={toc} className="lg:hidden" /> : null}
 
-        <ArticleBody body={article.body} />
+          <ArticleBody body={article.body} />
 
-        {article.faq.length > 0 ? <FaqSection items={article.faq} /> : null}
+          {article.faq.length > 0 ? <FaqSection items={article.faq} /> : null}
 
-        {article.tags.length > 0 ? (
-          <ul aria-label="Tags" className="mt-14 flex flex-wrap gap-3">
-            {article.tags.map((tag) => (
-              <li
-                key={tag.slug}
-                className="border border-charcoal/40 px-4 py-2 text-[0.62rem] uppercase tracking-[0.22em]"
-              >
-                {tag.title}
-              </li>
-            ))}
-          </ul>
-        ) : null}
+          <ShareLinks
+            url={absoluteUrl}
+            title={article.title}
+            image={article.image?.url}
+            className="mt-14 border-t border-beige pt-8 lg:hidden"
+          />
 
-        {article.author?.bio ? (
-          <aside aria-label="About the author" className="mt-14 flex gap-6 border-t border-beige pt-8">
-            {article.author.image ? (
-              <Media
-                image={article.author.image}
-                label="Author portrait"
-                ratio="square"
-                sizes="96px"
-                className="!w-24 shrink-0"
-              />
-            ) : null}
-            <div>
-              <p className="font-serif text-xl font-medium text-black">{article.author.name}</p>
-              {article.author.role ? (
-                <p className="mt-1 text-[0.64rem] uppercase tracking-[0.24em] text-taupe-deep">
-                  {article.author.role}
-                </p>
+          {article.tags.length > 0 ? (
+            <ul aria-label="Tags" className="mt-14 flex flex-wrap gap-3">
+              {article.tags.map((tag) => (
+                <li
+                  key={tag.slug}
+                  className="border border-charcoal/40 px-4 py-2 text-[0.62rem] uppercase tracking-[0.22em]"
+                >
+                  {tag.title}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {article.author?.bio ? (
+            <aside aria-label="About the author" className="mt-14 flex gap-6 border-t border-beige pt-8">
+              {article.author.image ? (
+                <Media
+                  image={article.author.image}
+                  label="Author portrait"
+                  ratio="square"
+                  sizes="96px"
+                  className="!w-24 shrink-0"
+                />
               ) : null}
-              <p className="mt-3 text-[0.95rem] leading-[1.75]">{article.author.bio}</p>
+              <div>
+                <p className="font-serif text-xl font-medium text-black">{article.author.name}</p>
+                {article.author.role ? (
+                  <p className="mt-1 text-[0.64rem] uppercase tracking-[0.24em] text-taupe-deep">
+                    {article.author.role}
+                  </p>
+                ) : null}
+                <p className="mt-3 text-[0.95rem] leading-[1.75]">{article.author.bio}</p>
+              </div>
+            </aside>
+          ) : null}
+          </div>
+
+          {/* Desktop sidebar: stays in view while the article scrolls. */}
+          <aside aria-label="Article tools" className="hidden lg:block">
+            <div className="sticky top-36 space-y-10">
+              {toc.length >= 3 ? <TableOfContents items={toc} variant="sidebar" /> : null}
+              <ShareLinks url={absoluteUrl} title={article.title} image={article.image?.url} />
+              <a href="#main" className="link-underline inline-block text-[0.68rem] uppercase tracking-[0.24em]">
+                Back to top
+              </a>
             </div>
           </aside>
-        ) : null}
+        </div>
       </Container>
 
       {article.comparison ? (
@@ -256,6 +280,7 @@ export async function ArticlePage({ slug, allow }: ArticlePageProps) {
                     excerpt={item.excerpt}
                     category={item.category}
                     image={item.image}
+                    readingMinutes={item.readingMinutes}
                     imageLabel={item.imageLabel}
                     href={item.href}
                   />

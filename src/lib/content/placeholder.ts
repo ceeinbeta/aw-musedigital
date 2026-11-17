@@ -22,9 +22,9 @@ export const edits: Edit[] = [
   {
     slug: "style-edit",
     name: "The Style Edit",
-    description: "Wardrobe foundations, accessories and considered seasonal pieces.",
+    description: "Wardrobe foundations, fabrics that work and how to care for them.",
     intro:
-      "A considered approach to getting dressed: the foundations worth investing in, the accessories that finish a look, and seasonal pieces chosen with restraint.",
+      "A considered approach to getting dressed: the foundations worth building a wardrobe around, the fabrics that suit the season, and how to make good clothes last.",
     topics: ["Wardrobe", "Fabrics", "Fabric care", "Seasonal"],
     relatedService: "creative-styling",
     href: "/style-edit",
@@ -34,9 +34,9 @@ export const edits: Edit[] = [
   {
     slug: "living-edit",
     name: "The Living Edit",
-    description: "Interiors, tableware and the objects that make a home feel finished.",
+    description: "Arranging rooms, choosing textiles and making a home feel calm.",
     intro:
-      "Ideas for a home that feels calm and finished, from the way a room is arranged to the tableware, textiles and small objects that give it character.",
+      "Ideas for a home that feels calm and finished, from the way a room is arranged to the textiles and small objects that give it character.",
     topics: ["Interiors", "Small spaces", "Bedroom", "Textiles"],
     relatedService: "event-planning",
     href: "/living-edit",
@@ -58,9 +58,9 @@ export const edits: Edit[] = [
   {
     slug: "business-edit",
     name: "The Business Edit",
-    description: "Tools, workspaces and guidance for creative founders.",
+    description: "Websites, photography and practical guidance for small businesses.",
     intro:
-      "Practical guidance for creative founders: the tools, workspaces and habits behind a well-run small business, and how to present it beautifully online.",
+      "Practical guidance for small businesses and creatives: how to present your work with care, from the words on your website to the photographs that sell it.",
     topics: ["Small business", "Websites", "Photography", "Writing"],
     relatedService: "website-development",
     href: "/business-edit",

@@ -10,8 +10,12 @@ export type ArticleCardProps = {
   excerpt?: string;
   /** The featured photograph, when one exists. */
   image?: ImageAsset;
+  /** Estimated reading time, shown beside the category. */
+  readingMinutes?: number;
   /** Describes the featured image; used by the placeholder until photos exist. */
   imageLabel: string;
+  /** Load this card's image first (for the first card on a page). */
+  priority?: boolean;
   /** "feature" is the large lead story; "standard" is used in grids. */
   layout?: "standard" | "feature";
   headingLevel?: "h2" | "h3";
@@ -25,7 +29,9 @@ export function ArticleCard({
   excerpt,
   image,
   imageLabel,
+  readingMinutes,
   layout = "standard",
+  priority = false,
   headingLevel: HeadingTag = "h3",
   className,
 }: ArticleCardProps) {
@@ -44,11 +50,20 @@ export function ArticleCard({
           label={imageLabel}
           ratio={feature ? "landscape" : "portrait"}
           sizes={feature ? "(min-width: 1024px) 55vw, 100vw" : undefined}
+          priority={priority}
           className="transition-transform duration-[1200ms] ease-editorial group-hover:scale-[1.04]"
         />
       </div>
       <div className={cn(feature ? "" : "mt-6")}>
-        <p className="text-[0.66rem] uppercase tracking-[0.28em] text-taupe-deep">{category}</p>
+        <p className="text-[0.66rem] uppercase tracking-[0.28em] text-taupe-deep">
+          {category}
+          {readingMinutes ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              {readingMinutes} min read
+            </>
+          ) : null}
+        </p>
         <HeadingTag
           className={cn(
             "mt-3 font-serif font-medium leading-[1.2] text-black text-balance",

@@ -9,6 +9,8 @@ type LatestJournalProps = {
   eyebrow?: string;
   title?: string;
   link?: { label: string; href: string };
+  /** Load the lead image first, when this section opens the page. */
+  priority?: boolean;
 };
 
 export function LatestJournal({
@@ -16,6 +18,7 @@ export function LatestJournal({
   eyebrow = "The Journal",
   title = "Latest stories",
   link = { label: "View all stories", href: "/journal" },
+  priority = false,
 }: LatestJournalProps) {
   const [lead, ...rest] = articles;
   if (!lead) return null;
@@ -33,8 +36,10 @@ export function LatestJournal({
           excerpt={lead.excerpt}
           category={lead.category}
           image={lead.image}
+          readingMinutes={lead.readingMinutes}
           imageLabel={lead.imageLabel}
           href={lead.href}
+          priority={priority}
         />
         {rest.length > 0 ? (
           <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
@@ -45,6 +50,7 @@ export function LatestJournal({
                   excerpt={article.excerpt}
                   category={article.category}
                   image={article.image}
+                  readingMinutes={article.readingMinutes}
                   imageLabel={article.imageLabel}
                   href={article.href}
                 />

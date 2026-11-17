@@ -40,13 +40,36 @@ export function tableOfContents(body: PortableTextBlock[]): TocItem[] {
     .filter((item) => item.text);
 }
 
-export function TableOfContents({ items }: { items: TocItem[] }) {
+export function TableOfContents({
+  items,
+  variant = "inline",
+  className,
+}: {
+  items: TocItem[];
+  /** "inline" sits in the article on phones; "sidebar" sits beside it on desktop. */
+  variant?: "inline" | "sidebar";
+  className?: string;
+}) {
+  const id = `in-this-article-${variant}`;
   return (
-    <nav aria-labelledby="in-this-article" className="mb-12 border-y border-beige py-6">
-      <h2 id="in-this-article" className="heading-label text-[0.7rem] font-normal uppercase tracking-[0.32em] text-taupe-deep">
+    <nav
+      aria-labelledby={id}
+      className={
+        variant === "inline"
+          ? `mb-12 border-y border-beige py-6 ${className ?? ""}`
+          : className
+      }
+    >
+      <h2 id={id} className="heading-label text-[0.7rem] font-normal uppercase tracking-[0.32em] text-taupe-deep">
         In this article
       </h2>
-      <ol className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+      <ol
+        className={
+          variant === "inline"
+            ? "mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2"
+            : "mt-4 space-y-3 border-l border-beige pl-4"
+        }
+      >
         {items.map((item) => (
           <li key={item.id}>
             <a href={`#${item.id}`} className="link-underline text-[0.95rem]">

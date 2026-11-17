@@ -62,6 +62,37 @@ export async function getArticlesByEdit(edit: EditSlug, limit = 3): Promise<Arti
   return (await allArticles(edit)).slice(0, limit);
 }
 
+/**
+ * Simple relevance search across articles. Every word must appear somewhere
+ * in the title, excerpt or section; matches in the title rank higher.
+ */
+export async function searchArticles(query: string, limit = 30): Promise<Article[]> {
+  const words = query
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => word.replace(/[^\p{L}\p{N}-]/gu, ""))
+    .filter((word) => word.length > 1)
+    .slice(0, 8);
+  if (words.length === 0) return [];
+  const all = await allArticles(null);
+  return all
+    .map((item) => {
+      const title = item.title.toLowerCase();
+      const rest = `${item.excerpt} ${item.category} ${item.typeLabel}`.toLowerCase();
+      let score = 0;
+      for (const word of words) {
+        if (title.includes(word)) score += 3;
+        else if (rest.includes(word)) score += 1;
+        else return null;
+      }
+      return { item, score };
+    })
+    .filter((result): result is { item: Article; score: number } => result !== null)
+    .sort((a, b) => b.score - a.score || byDate(a.item, b.item))
+    .slice(0, limit)
+    .map((result) => result.item);
+}
+
 /** Slugs for pre-building article pages, optionally limited to some templates. */
 export async function getArticleSlugs(types?: ArticleType[]): Promise<string[]> {
   const fromSanity = (await fetchArticleSlugs()) ?? [];

@@ -2,12 +2,23 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { mainNav, siteConfig } from "@/lib/site";
 import { MobileNav } from "./mobile-nav";
+import { NavLink } from "./nav-link";
 
 const mobileItems = [
   ...mainNav,
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "Search", href: "/search" },
 ];
+
+function SearchIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.5 15.5 5 5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 type HeaderProps = {
   /** "dark" is used on the studio service pages to set them apart. */
@@ -31,34 +42,41 @@ export function Header({ tone = "light" }: HeaderProps) {
       </a>
 
       <div className="relative mx-auto flex h-16 w-full max-w-[90rem] items-center justify-between px-5 sm:px-8 lg:h-20 lg:px-12">
-        {/* Left: secondary links on desktop, spacer on mobile to keep the logo centred */}
-        <div className="flex w-11 lg:w-48">
+        {/* Left: secondary links on desktop. On phones the logo sits left instead. */}
+        <div className="hidden lg:flex lg:w-48">
           <nav aria-label="Secondary" className="hidden gap-7 lg:flex">
-            <Link href="/about" className="link-underline text-[0.68rem] uppercase tracking-[0.24em]">
+            <NavLink href="/about" className="link-underline text-[0.68rem] uppercase tracking-[0.24em]">
               About
-            </Link>
-            <Link href="/contact" className="link-underline text-[0.68rem] uppercase tracking-[0.24em]">
+            </NavLink>
+            <NavLink href="/contact" className="link-underline text-[0.68rem] uppercase tracking-[0.24em]">
               Contact
-            </Link>
+            </NavLink>
           </nav>
         </div>
 
         <Link
           href="/"
           className={cn(
-            "font-serif text-2xl font-medium tracking-[0.18em] lg:text-[1.7rem]",
+            "whitespace-nowrap font-serif text-xl font-medium tracking-[0.16em] sm:text-2xl sm:tracking-[0.18em] lg:text-[1.7rem]",
             dark ? "text-ivory" : "text-black",
           )}
         >
           {siteConfig.name}
         </Link>
 
-        <div className="flex w-11 justify-end lg:w-48">
-          <Link
+        <div className="-mr-3 flex items-center justify-end gap-1 lg:mr-0 lg:w-48 lg:gap-6">
+          <NavLink
             href="/services"
             className="link-underline hidden text-[0.68rem] uppercase tracking-[0.24em] lg:inline"
           >
             Work with us
+          </NavLink>
+          <Link
+            href="/search"
+            className="flex h-11 w-11 items-center justify-center transition-opacity hover:opacity-70"
+          >
+            <SearchIcon />
+            <span className="sr-only">Search</span>
           </Link>
           <MobileNav items={mobileItems} />
         </div>
@@ -71,12 +89,12 @@ export function Header({ tone = "light" }: HeaderProps) {
         <ul className="mx-auto flex max-w-[90rem] items-center justify-center gap-10 px-12 py-4">
           {mainNav.map((item) => (
             <li key={item.href}>
-              <Link
+              <NavLink
                 href={item.href}
                 className="link-underline text-[0.68rem] uppercase tracking-[0.24em]"
               >
                 {item.label}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

@@ -25,18 +25,6 @@ function unsplash(id: string, slug: string, photographer: string, alt: string): 
 
 export const photos = {
   // Homepage
-  heroVase: unsplash(
-    "1713191352960-911f277876a7",
-    "a-vase-filled-with-lots-of-flowers-on-top-of-a-table-DdTp2FvLTzE",
-    "Peter Amende",
-    "A vase of loosely arranged flowers on a table in soft daylight",
-  ),
-  heroDetail: unsplash(
-    "1633000116322-d7f5cb7d3ebb",
-    "a-white-vase-sitting-on-top-of-a-white-table-71EoX-X3LNU",
-    "Kasia Sikorska",
-    "A white ceramic vase on a white table",
-  ),
   outdoorTable: unsplash(
     "1758810741067-c20b49078b10",
     "outdoor-table-setting-with-floral-arrangements-and-lemons-rqz9F0IhoCo",

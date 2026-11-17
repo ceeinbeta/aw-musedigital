@@ -20,7 +20,7 @@ const components: PortableTextComponents = {
     normal: ({ children }) => <p className="mt-6 text-[1.05rem] leading-[1.9]">{children}</p>,
     // Headings get an id so the table of contents can link to them.
     h2: ({ children, value }) => (
-      <h2 id={headingId(plainText(value))} className="mt-14 scroll-mt-28 text-black">
+      <h2 id={headingId(plainText(value))} className="mt-14 scroll-mt-24 text-black lg:scroll-mt-40">
         {children}
       </h2>
     ),
